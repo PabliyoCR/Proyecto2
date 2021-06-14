@@ -21,12 +21,14 @@ int obtenerPosicionDeCaminoPorDestino(CaminosListaAdyacencia* CL, Vertice* VDest
 
 // --- Definición de funciones ---
 
+// Reserva espacio en memoria para una lista de vértices
 ListaVertices* crearListaVertices(){
     ListaVertices *L = (ListaVertices *) malloc(sizeof(ListaVertices));
     L->inicio = NULL;
     return L;
 };
 
+// Reserva espacio en memoria para un vertice
 Vertice* crearVertice(char nombreLugar[30], char provincia[30], unsigned poblacionAprox){
     // Datos del vértice
     Vertice *V = (Vertice *) malloc(sizeof(Vertice));
@@ -41,6 +43,7 @@ Vertice* crearVertice(char nombreLugar[30], char provincia[30], unsigned poblaci
     return V;
 }
 
+// Elimina un vertice en la posición dada del grafo
 void eliminarVertice(int pos){
     Vertice* V, *V_prev;
     if(pos > 0){
@@ -62,12 +65,14 @@ void eliminarVertice(int pos){
     free(V);
 }
 
+// Reserva espacio para una Lista de Caminos
 CaminosListaAdyacencia* crearListaCaminos(){
     CaminosListaAdyacencia *L = (CaminosListaAdyacencia *) malloc(sizeof(CaminosListaAdyacencia));
     L->inicio = NULL;
     return L;
 }
 
+// Reserva espacio en memoria para un camino
 Camino* crearCamino(Vertice* VOrigen, Vertice* VDestino, unsigned tiempo, unsigned distancia){
     // Datos del camino
     Camino *C = (Camino *) malloc(sizeof(Camino));
@@ -85,6 +90,7 @@ Camino* crearCamino(Vertice* VOrigen, Vertice* VDestino, unsigned tiempo, unsign
     return C;
 }
 
+// Elimina un camino en una lista de caminos dada, en la posición dada.
 void eliminarCamino(CaminosListaAdyacencia* CL, int pos){
     Camino *C, *C_prev;
     if(pos > 0){
@@ -100,6 +106,7 @@ void eliminarCamino(CaminosListaAdyacencia* CL, int pos){
 
 // --- Menus de navegación---
 
+// Menu de creación de vértices
 void menuCrearVertice(){
     system("cls");
     printf("--- CREAR VERTICE ---\n");
@@ -115,6 +122,7 @@ void menuCrearVertice(){
     crearVertice(nombreLugar, provincia, poblacionAprox);
 }
 
+// Menú de eliminación de vertice
 void menuEliminarVertice(){
     system("cls");
     printf("--- ELIMINAR VERTICE ---\n");
@@ -126,6 +134,7 @@ void menuEliminarVertice(){
     eliminarVertice(pos-1);
 }
 
+//Menu de creación de caminos
 void menuCrearCamino(){
     system("cls");
     printf("--- CREAR CAMINO ---\n");
@@ -152,7 +161,8 @@ void menuCrearCamino(){
     crearCamino(vOrigen, vDestino, tiempo, distancia);
     crearCamino(vDestino, vOrigen, tiempo, distancia);
 }
-  
+
+// Menu de eliminación de caminos
 void menuEliminarCamino(){
     system("cls");
     printf("--- ELIMINAR CAMINO ---\n");
@@ -170,10 +180,12 @@ void menuEliminarCamino(){
         return;
     }
     Vertice* VDestino = obtenerCaminoEnPosicion(VOrigen->caminos, posCamino-1)->destino;
+    // Elimina el camino en ambos sentidos
     eliminarCamino(VOrigen->caminos, posCamino-1);
     eliminarCamino(VDestino->caminos, obtenerPosicionDeCaminoPorDestino(VDestino->caminos, VOrigen));
 }
 
+// Imprime en pantalla los lugares y sus rutas
 void imprimirGrafo(){
     system("cls");
     printf("--- GRAFO ---\n");
@@ -195,6 +207,7 @@ void imprimirGrafo(){
     getchar();
 }
 
+// menu de seleccion de un vertice en X posicion
 int menuSeleccionarVertice(){
     Vertice* v_i;
     unsigned i = 1;
@@ -218,6 +231,7 @@ int menuSeleccionarVertice(){
     return opVertice;
 }
 
+// Retorna el puntero a un vertice en la posición dada del grafo
 Vertice* obtenerVerticeEnPosicion(int pos){
     Vertice* v_i;
     int i = 0;
@@ -231,6 +245,7 @@ Vertice* obtenerVerticeEnPosicion(int pos){
     return NULL;
 }
 
+// Imprime todos los caminos desde Origen - Destino y viceversa
 void mostrarTodosCaminos(){
     Vertice* V_Aux;
     Camino* c_i;
@@ -242,6 +257,7 @@ void mostrarTodosCaminos(){
     }
 }
 
+// menu de seleccion de un camino en una lista de caminos dada
 int menuSeleccionarCaminoEnVertice(CaminosListaAdyacencia* CL){
     Camino* c_i;
     unsigned i = 1;
@@ -265,6 +281,7 @@ int menuSeleccionarCaminoEnVertice(CaminosListaAdyacencia* CL){
     return opCamino;
 }
 
+// Retorna un camino en la posición dada, en una lista de caminos dada
 Camino* obtenerCaminoEnPosicion(CaminosListaAdyacencia* CL, int pos){
     Camino* c_i;
     int i = 0;
@@ -278,6 +295,7 @@ Camino* obtenerCaminoEnPosicion(CaminosListaAdyacencia* CL, int pos){
     return NULL;
 }
 
+// Retorna la posición de un Camino dentro de una lista de caminos anidada en un vertice
 int obtenerPosicionDeCaminoPorDestino(CaminosListaAdyacencia* CL, Vertice* VDestino){
     int pos = 0;
     Camino* c_i;

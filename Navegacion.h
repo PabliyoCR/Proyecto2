@@ -25,6 +25,7 @@ void menuPrincipal(){
     }   
 }
 
+// Menu de navegacion: Grafos
 void gestionarGrafo(){
     while(op != 6){
         system("cls");
